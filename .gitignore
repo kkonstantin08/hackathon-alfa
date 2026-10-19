@@ -1,0 +1,26 @@
+# Per-human agent identity and settings
+ROLE.local.md
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# IDE / OS / local agent state
+.DS_Store
+.idea/
+.vscode/
+.codex/
+.claude/
+
+# Common app outputs (extend after stack choice)
+node_modules/
+dist/
+build/
+coverage/
+__pycache__/
+.pytest_cache/
+.venv/
+venv/
+*.pyc
+

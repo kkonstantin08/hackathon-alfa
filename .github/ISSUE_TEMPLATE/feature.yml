@@ -1,0 +1,45 @@
+name: Feature / task
+description: One independently deliverable unit of work
+title: "feat: "
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: User-visible outcome
+      description: Describe success, not just implementation details.
+      placeholder: As a user I can ...
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Measurable, demoable checks.
+      placeholder: "- [ ] ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: function
+    attributes:
+      label: Primary function
+      options:
+        - Backend
+        - Frontend
+        - UI/UX
+        - Team Lead / Integration
+        - DevOps
+        - Fullstack
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and shared contracts
+      description: Other Issues, interfaces, consumers to notify.
+      placeholder: "Issues #..., contracts C-..., @..."
+  - type: textarea
+    id: verification
+    attributes:
+      label: Testing / demo proof
+      placeholder: Which tests and live scenario will show that this is done?
+

@@ -1,0 +1,37 @@
+# INACTIVE EXAMPLE — do NOT copy into .github/workflows/ unchanged.
+# Read GITHUB_SETUP.md and replace the failing placeholder with a real provider
+# deployment plus a smoke test AFTER architecture, hosting and credentials exist.
+name: Demo Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: demo-deployment
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: demo
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # TODO: install dependencies / build / authenticate to the provider.
+      # TODO: use only minimum required secrets and environment permissions.
+      - name: Deployment NOT CONFIGURED — replace this step
+        run: |
+          echo 'Deployment provider/command has not been configured.' >&2
+          echo 'See GITHUB_SETUP.md section 4. Do not mark this as success.' >&2
+          exit 1
+
+      # TODO: fetch the real public demo URL and assert a health path returns 2xx.
+      # TODO: notify team and record demo URL in docs/STATUS.md through a PR.
+

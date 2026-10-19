@@ -1,0 +1,42 @@
+name: Bug
+description: Reproducible defect or broken acceptance criterion
+title: "fix: "
+body:
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: What happens now?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: What should happen?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open ...\n2. Click ...\n3. Observe ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Demo impact
+      options:
+        - Demo blocker
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Logs, affected functions, contracts
+      description: Never paste secrets or private user data.
+

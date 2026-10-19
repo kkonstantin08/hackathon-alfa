@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  foundation:
+    name: foundation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run validator unit tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Check scaffold and PR title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: python3 scripts/validate_scaffold.py --root . --pr-title "$PR_TITLE"
+
+  # Add real application lint/test/build jobs after stack selection.
+  # Make each new stable job name required in the separate CI ruleset.
+
