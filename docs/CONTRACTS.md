@@ -1,27 +1,82 @@
-# Shared contracts
+# Общие контракты
 
-> Only record boundaries that another developer depends on; do not duplicate internal source-code implementation. Update before implementing incompatible shared-interface changes and notify dependent people in GitHub Issue/PR.
+> Предложения для обсуждения, [Issue #1](https://github.com/kkonstantin08/hackathon-alfa/issues/1). Контракты ещё не реализованы и не согласованы; это не описание существующего API. До параллельной реализации закрепить точные схемы в машинно проверяемом формате.
 
-## Contract registry
+## Реестр
 
-| Contract ID | Provider | Consumers | Interface / schema | Owner | Status |
-| --- | --- | --- | --- | --- | --- |
-| C-01 | `<service>` | `<app>` | `<method, endpoint, DTO or reference>` | `<@handle>` | Proposed |
+| ID | Поставщик → потребители | Граница | Функциональный владелец | Статус |
+| --- | --- | --- | --- | --- |
+| C-01 | Импорт/backend → UI, ранжирование, агент | Профиль компании | Backend + данные | Предложен |
+| C-02 | Сбор/backend → UI, агент | Новости и лента | Backend | Предложен |
+| C-03 | Поиск/агент → UI, чат | Разбор и источники | AI/RAG + Backend | Предложен |
+| C-04 | Backend/агент → UI | Уточняющий диалог | Backend + Frontend | Предложен |
+| C-05 | Агент → интеграция и оценка качества | Журнал выполнения | AI + интеграция | Предложен |
 
-## C-01 — `<contract name>`
+GitHub handles неизвестны. Сначала назначить людей в [ROLES.md](ROLES.md), затем уведомлять их в Issue/PR перед реализацией или изменением границ. Действующих интерфейсов и миграций сейчас нет.
 
-- Purpose: `<why it exists>`
-- Request / input: `<shape, fields, types>`
-- Response / output: `<shape, fields, types>`
-- Errors / edge cases: `<documented behavior>`
-- Compatibility: `<versioning or migration notes>`
-- Consumers to notify: `<@handle list>`
-- Linked Issues / PRs: `<links>`
+## Общие правила предлагаемого API
 
-## Change protocol
+- Базовый путь `/api/v1`; ID — непрозрачные строки. `company_id` соответствует `SYNTHETIC_U`, а не придуманному названию компании.
+- Время — ISO 8601 с часовым поясом. Даты публикации и загрузки различаются. Неизвестные значения — `null`.
+- Списки имеют серверное ограничение размера и пагинацию; её формат согласовать до реализации UI.
+- На каждом запросе проверяется доступ к компании и связанному объекту. `404` не раскрывает наличие чужих объектов.
+- Ошибка: `{"error":{"code":"MODEL_UNAVAILABLE","message":"Модель временно недоступна","retryable":true}}`. Стек и секреты не передаются.
+- `400` — неверный запрос; `401` — нет учётной записи; `404` — объект недоступен; `429` — лимит вызовов/бюджета; `503` — недоступен компонент. Код ошибки различает причины; исчерпанный бюджет не запускает бесконечный повтор.
 
-1. Link the proposed change in an Issue and identify all consumers.
-2. Notify affected developers **before** breaking changes; discuss a migration or compatibility path if they are blocked.
-3. Update this file and tests/fixtures with the same PR as the code change.
-4. Report timing and remaining migrations in the PR and, if material, `docs/STATUS.md`.
+## C-01 — профиль
 
+Предлагаются `GET /companies` для кратких доступных профилей и `GET /companies/{company_id}` для подробного профиля.
+
+Поля: `company_id: string`, `profile_version: string`, `industry: string|null`, `region: string|null`, `features: Feature[]`. У `Feature` есть `field: string`, `value: string|number|boolean|null`, `source_file: string`; имена исходных признаков сохраняются.
+
+Типы уточняются после аудита CSV. Рассчитанная чувствительность передаётся отдельно от фактического признака, с основанием и ограничениями. Название компании, размер долга, направление торговли и доля рынка не выдумываются.
+
+## C-02 — новость и лента
+
+Предлагаются `GET /companies/{company_id}/feed` и `GET /news/{news_id}`.
+
+- Новость: `news_id: string`, `title: string`, `text: string`, `url: string`, `published_at: string|null`, `retrieved_at: string`.
+- Элемент ленты: `news_id: string`, `title: string`, `published_at: string|null`, `relevance_reasons: string[]`. Порядок элементов задаёт ранжирование; универсальный численный score пока не обещаем.
+- Выдача указывает `company_id` и `profile_version`, по которым выполнен отбор. Пустой список допустим.
+
+Текст поступает от сборщика; клиент не подменяет сохранённый источник.
+
+## C-03 — разбор и источники
+
+Предлагается `POST /analyses` с `{"company_id":"…","news_id":"…"}` для получения нового или сохранённого разбора; `GET /analyses/{analysis_id}` читает доступный результат. Для первой версии предлагается запрос/ответ с ограничением времени; очередь и streaming пока не предусматриваются.
+
+Поля: `analysis_id: string`, `company_id: string`, `news_id: string`, `profile_version: string`, `created_at: string`, `status: ready|partial`, `blocks: Block[]`, `sources: Source[]`, `limitations: string[]`, `trace_id: string`, `reused: boolean`. При повторном использовании дата создания сохраняется.
+
+`Block`: `type` и `claims: Claim[]`. Типы соответствуют шести вопросам кейса: `event`, `company_relevance`, `consequences`, `actions`, `bank_view`, `basis`.
+
+`Claim`: `claim_id: string`, `kind: fact|bank_view|ai_inference`, `text: string`, `source_ids: string[]`, `profile_fields: string[]`. Признаки относятся к конкретной версии профиля C-01.
+
+`Source`: `source_id: string`, `kind: news|bank_document`, `title: string`, `url: string`, `published_at: string|null`, `page: number|null`, `fragment_id: string`, `excerpt: string`. Ссылка позволяет авторизованному пользователю открыть исходный материал; внутренний путь файла не является ссылкой для UI.
+
+Проверки до выдачи:
+
+- ID источников и признаки разрешаются в переданные материалы и профиль; номера страниц положительные.
+- Позиция банка подтверждена банковским фрагментом с видимой датой; новость не выдаётся за мнение банка.
+- При отсутствии оснований блок не содержит утверждений, причина отражена в `limitations`, статус — `partial`.
+- Проверяется содержательная опора на материалы, а не только существование ссылки. Агент уточняет поиск либо убирает неподтверждённое утверждение.
+
+## C-04 — чат
+
+Предлагается `POST /analyses/{analysis_id}/chat`, тело: `{"messages":[{"role":"user","text":"…"}]}`. Последующие запросы передают ограниченную историю с ролями `user|assistant`; системная роль от клиента запрещена.
+
+Ответ: `claims: Claim[]`, `sources: Source[]`, `limitations: string[]`, `trace_id: string`. Типы общие с C-03. Backend восстанавливает профиль и событие по разбору и проверяет доступ. История клиента — недоверенный контекст, её утверждения не считаются доказательствами. Вопрос вне доступных данных требует поиска либо явного ограничения. Размер вопроса и истории ограничивается сервером.
+
+## C-05 — журнал
+
+Внутренний журнал, не публичный API. Предлагаемые поля: `trace_id`, `step_id`, `timestamp`, `stage`, `tool`, `status`, `source_ids`, `profile_fields`, `duration_ms`, `usage`.
+
+Этапы: планирование, данные, поиск, генерация, проверка, повторный поиск, завершение. Для поиска сохраняются безопасный краткий запрос и найденные ID; для проверки — результат и причина следующего действия. В `usage` доступны токены и стоимость; неизвестная стоимость не равна нулю.
+
+Доступ ограничен. Полные CSV, секреты и скрытые рассуждения модели не журналируются. Сохраняются версии профиля, новости, корпуса и конфигурации генерации. Состав и срок хранения уточнить до деплоя.
+
+## Перед реализацией
+
+1. Согласовать схемы, пагинацию, доступ к источникам, ограничения времени/размера и поведение после отключения ключа.
+2. Назначить владельцев/потребителей и создать Issues реализации с успешными и ошибочными примерами.
+3. Зафиксировать OpenAPI или эквивалент, подготовить общие синтетические примеры для UI и backend.
+4. Уведомлять потребителей в Issue/PR до изменения границ; схемы, примеры и проверки обновлять в том же PR. Внутренние детали остаются у исполнителя.

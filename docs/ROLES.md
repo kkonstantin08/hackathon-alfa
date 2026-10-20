@@ -1,20 +1,28 @@
-# Functional ownership after case reveal
+# Распределение ответственности
 
-> Fill with the team. Five humans can cover more than five functions. Personal `ROLE.local.md` files remain untracked; this file records only the shared interface for ownership/review routing.
+> Предложение для пяти человек, [Issue #1](https://github.com/kkonstantin08/hackathon-alfa/issues/1). Имена, GitHub handles и опыт пока не предоставлены. Буквы ниже — условные рабочие направления, а не назначенные люди.
 
-| Function | Responsible GitHub handle | Main area / folders | Reviewer / fallback |
+## Предлагаемое распределение
+
+| Участник | Основная работа | Первый результат | С кем согласует границы |
 | --- | --- | --- | --- |
-| Backend | `<@handle>` | `<paths>` | `<@handle>` |
-| Frontend | `<@handle>` | `<paths>` | `<@handle>` |
-| UI/UX | `<@handle>` | `<design files and UI>` | `<@handle>` |
-| Team Lead / Integration | `<@handle>` | `<integration and scope>` | `<@handle>` |
-| DevOps | `<@handle>` | `.github/`, `<infra>` | `<@handle>` |
-| Fullstack | `<@handle or shared>` | `<assigned vertical slice>` | `<@handle>` |
+| A — данные и профиль | Аудит CSV, импорт, профиль, полезность платежей и связей | Контрастные профили с происхождением признаков и пропусками | B: C-01; C: хранение/API |
+| B — AI и RAG | PDF, поиск, собственный агент, самопроверка | Разбор с подтверждёнными источниками и журналом, затем новая новость | A: профиль; C: C-03–C-05; D: основания |
+| C — backend и новости | Сбор новостей, API, хранение, доступ и бюджет | Профиль и новость через общие схемы, явная обработка сбоев | A/B/D: C-01–C-04; E: запуск |
+| D — frontend и UI/UX | Вход, компания, лента, карточка, чат, источники | Сценарий на общих синтетических примерах, затем backend | B/C: C-01–C-04 |
+| E — интеграция и DevOps | Задачи, CI, Docker, демо, проверка сдачи | Воспроизводимый запуск и независимая проверка сценария | Все; B/C: конфигурация и журнал |
 
-## Overlap rules
+Нагрузку B и C проверить по навыкам команды; часть сбора новостей или интеграции можно перераспределить. UI/UX совмещён с frontend, интеграция — с DevOps. Fullstack — способ выполнения задачи, а не шестой человек.
 
-- Functions may overlap; path ownership is a default review route, not an exclusive edit lock.
-- One person must not be their own required reviewer. Pick another human familiar with the affected area.
-- If the primary reviewer is absent, choose another teammate for normal review; all five may invoke documented Emergency Merge when appropriate.
-- Every cross-team contract change gets an Issue/PR notification to dependent humans, even when the author holds multiple roles.
+## Правила
 
+- До продуктовой реализации каждый человек с агентом заполняет личный `ROLE.local.md` по `ROLE.example.md`. Файл не коммитится; общий документ его не заменяет.
+- После обсуждения указать реальные GitHub handles, другого человека для ревью и подстраховки. Автор не является собственным обязательным ревьюером.
+- Исполнитель выбирает внутренние детали. Общие схемы, API, окружение и объём MVP обсуждаются по [AGENT_WORKFLOW.md](AGENT_WORKFLOW.md).
+- Можно менять соседний модуль в рамках Issue; до изменения общей границы уведомить конкретных потребителей в Issue/PR.
+- Агенты могут создавать ветки, коммиты, push и PR. Merge — только по отдельной явной команде человека, с соблюдением ревью и CI.
+- Для Codex сохраняется политика проекта: основной агент `gpt-6.1-sol` / `medium`, исполнители `gpt-6-luna` / `high`, максимум два активных субагента, включая вложенных. Это настройка разработчиков, а не выбор LLM продукта.
+
+## Первое обсуждение
+
+Определить роли и доступное время, дедлайн, MVP, стек и C-01–C-04. Затем создать Issues реализации с критериями готовности. Назначенный координатор обновляет STATUS.md на контрольных точках, чтобы избежать пяти параллельных правок.
