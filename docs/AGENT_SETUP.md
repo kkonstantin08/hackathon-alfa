@@ -1,4 +1,4 @@
-# Agent workstation setup (each of five participants)
+# Agent workstation setup (each of four participants)
 
 These instructions are for Codex Desktop and Claude Code Desktop Code tab. Install plugins **independently for every agent host each person uses**; cloning this repo does not install plugins. Only install from official publishers and review permissions/hooks before trusting them. The agent may run installer commands on the human's behalf within its approved environment; a human does not need a daily CLI workflow.
 
@@ -74,7 +74,7 @@ In an agent that has Matt Pocock Skills installed, run `/setup-matt-pocock-skill
 
 If the skill proposes tracked configuration files, review its diff so it does not overwrite `AGENTS.md` or this template's agreements. Commit relevant **shared** setup through a PR; do not commit personal plugin credentials/state.
 
-## Five-person sign-off checklist
+## Four-person sign-off checklist
 
 | Check (each human, for each host used) | Done? |
 | --- | --- |

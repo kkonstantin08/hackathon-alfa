@@ -1,6 +1,6 @@
 # Agent entry point
 
-This is a five-person, 4–7-day hackathon monorepo. Follow the linked source files; keep this index short.
+This is a four-person, 4–7-day hackathon monorepo. Follow the linked source files; keep this index short.
 
 1. Read `ROLE.local.md` (create from `ROLE.example.md` with the human before implementation; it is intentionally gitignored) and `docs/AGENT_WORKFLOW.md` to identify your human's responsibilities and boundaries.
 2. Read `docs/REQUIREMENTS.md`, `docs/ARCHITECTURE.md`, and `docs/CONTRACTS.md` before proposing or changing implementation. Do not invent case details or override settled shared decisions.

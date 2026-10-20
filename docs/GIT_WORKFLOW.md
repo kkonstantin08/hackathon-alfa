@@ -56,7 +56,7 @@ No vague `update`, `wip`, `fix stuff`, and no noisy AI co-author boilerplate unl
 
 ## Emergency Merge
 
-- Any of the five team participants with repository write access may initiate it on an explicit human command (including a human using GitHub UI directly).
+- Any of the four team participants with repository write access may initiate it on an explicit human command (including a human using GitHub UI directly).
 - A reviewer can be bypassed if unavailable; **required CI checks remain non-bypassable**.
 - Record in the PR: `Emergency Merge: <reason>; authorized by <human>; follow-up Issue #<id>`.
 - Do not force-push `main` or skip required checks. If checks are red, fix or revert first.

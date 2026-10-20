@@ -4,7 +4,7 @@ This repository is intended to be **public on GitHub Free**. The ZIP cannot gran
 
 ## 1. Access, branches, PRs
 
-1. Create one public repository; use `main` as default branch. Add all five human participants as collaborators with **Write** or an appropriate organization role. Verify they can open and review PRs.
+1. Create one public repository; use `main` as default branch. Add all four human participants as collaborators with **Write** or an appropriate organization role. Verify they can open and review PRs.
 2. In repository Settings, enable **Issues** and **Actions**. Prefer **Squash merge** (Conventional Commit-style PR title becomes squash commit title). Disable force pushes and branch deletions for protected `main`.
 3. In Settings → Rules → Rulesets, use **two separate active branch rulesets** targeting `main`. Rulesets can be configured on public GitHub Free repositories; actual UI labels may vary.
 
@@ -12,7 +12,7 @@ This repository is intended to be **public on GitHub Free**. The ZIP cannot gran
 
 - Name: `main-review-gate`; enforcement: **Active**; target: default branch / `main`.
 - Require a pull request before merging; require **1 approving review**.
-- Set bypass for the **Write/Maintain role** (or the team's specific non-secret GitHub organization team as appropriate), with bypass mode **For pull requests only**. Verify *all five* humans have the intended bypass capability, not anonymous users or bots.
+- Set bypass for the **Write/Maintain role** (or the team's specific non-secret GitHub organization team as appropriate), with bypass mode **For pull requests only**. Verify *all four* humans have the intended bypass capability, not anonymous users or bots.
 - Do **not** use a silent `Exempt` mode. No habitual bypass: it is only for documented Emergency Merge with an explicit human command.
 
 **Limitation:** GitHub permissions cannot enforce that bypass is used only for genuine emergencies or after a verbal human command. This is a team rule backed by PR history and accountability.

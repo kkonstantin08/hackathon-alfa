@@ -2,9 +2,9 @@
 
 ## Scope and decision rights
 
-- One public GitHub Free monorepo, five humans, each with their own local agent role file, Codex Desktop and/or Claude Code Desktop.
+- One public GitHub Free monorepo, four humans, each with their own local agent role file, Codex Desktop and/or Claude Code Desktop.
 - GitHub Issues are canonical tasks; every code PR links to an Issue. `docs/STATUS.md` is only a compact overview.
-- At the case kickoff, everyone agrees on MVP, high-level stack, interfaces and deployment goal. The implementer decides their own module's libraries, patterns and internal architecture without mandatory lead approval. Revisit only when necessary.
+- At the case kickoff, assign the four independent data tasks in `docs/ROLES.md`. Agree on the application stack, interfaces and deployment goal after the first integrated prototype. The implementer decides their own module's libraries, patterns and internal architecture without mandatory lead approval. Revisit only when necessary.
 - Before a shared interface changes (API request/response, shared type, DB contract depended on by another area, event, design-system public component, environment variable, or deploy interface), notify affected owners in Issue/PR and update `docs/CONTRACTS.md`. Agreement is useful, but formal approval of internal decisions is not a blocker.
 
 ## Functional boundaries, not hard walls
@@ -18,7 +18,7 @@
 | DevOps | CI, environments, deployment, observability | Infrastructure and CI/CD |
 | Fullstack | Assigned vertical feature | The assigned feature's frontend + backend code |
 
-Five people may cover six functions. Actual people, paths and overlaps are decided after the case and kept personally in `ROLE.local.md` and collaboratively in `docs/ROLES.md`.
+Four people may cover six functions after the first integrated prototype. Start with the four independent tasks in `docs/ROLES.md`, regardless of questionnaire specializations. Keep personal task boundaries in `ROLE.local.md`.
 
 **Normal PR:** contributor may touch any code required by its Issue, but ask the responsible human to review modifications in that area. **Emergency Merge:** any team participant with appropriate GitHub access may merge a green-checked PR without a reviewer only on explicit human instruction, with an explanation in PR. No autonomous merge.
 
@@ -41,14 +41,14 @@ Five people may cover six functions. Actual people, paths and overlaps are decid
 
 - Desired main model: `gpt-6.1-sol`, reasoning `medium`.
 - Desired default child model: `gpt-6-luna`, reasoning `high`.
-- At most **2 active subagents at a time in a single Codex main session** (not an aggregate limit across five humans).
+- At most **2 active subagents at a time in a single Codex main session** (not an aggregate limit across four humans).
 - Run dependent tasks sequentially; use subagents only where supported and genuinely independent. Child agents inherit the same workspace rules.
 - This cap and model policy apply to Codex, **not Claude**.
 
 ## Coordination etiquette
 
 - Claim/assign an Issue before coding; record dependent Issues and affected people there.
-- Avoid editing `docs/STATUS.md` from five simultaneous feature branches. Update at checkpoints, coordinated by Team Lead / Integration, via PR.
+- Avoid editing `docs/STATUS.md` from four simultaneous feature branches. Update at checkpoints, coordinated by Team Lead / Integration, via PR.
 - Resolve PR conflicts by communicating with the owner; never overwrite their work without checking.
 - Keep API and UI implementations synchronized through `docs/CONTRACTS.md`, not parallel guesses.
 
