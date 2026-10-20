@@ -4,7 +4,7 @@
 
 - One public GitHub Free monorepo, four humans, each with their own local agent role file, Codex Desktop and/or Claude Code Desktop.
 - GitHub Issues are canonical tasks; every code PR links to an Issue. `docs/STATUS.md` is only a compact overview.
-- At the case kickoff, assign the four independent data tasks in `docs/ROLES.md`. Agree on the application stack, interfaces and deployment goal after the first integrated prototype. The implementer decides their own module's libraries, patterns and internal architecture without mandatory lead approval. Revisit only when necessary.
+- At the case kickoff, assign the four independent data tasks in `docs/ROLES.md`. After the four independent tasks are complete, discuss architecture, the application stack and interfaces before integrating them. Select the deployment environment after evaluating the integrated prototype. The implementer decides their own module's libraries, patterns and internal architecture without mandatory lead approval. Revisit only when necessary.
 - Before a shared interface changes (API request/response, shared type, DB contract depended on by another area, event, design-system public component, environment variable, or deploy interface), notify affected owners in Issue/PR and update `docs/CONTRACTS.md`. Agreement is useful, but formal approval of internal decisions is not a blocker.
 
 ## Functional boundaries, not hard walls
