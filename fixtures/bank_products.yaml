@@ -1,0 +1,26 @@
+# Мини-каталог «фактор → продукт банка». Названия ОБОБЩЁННЫЕ: точные продукты сверить с сайтом банка.
+products:
+  - id: fixed_rate_loan
+    name: Кредит с фиксированной ставкой / рефинансирование
+    factors: [key_rate, credit_market]
+  - id: deposit
+    name: Депозит или накопительный счёт для бизнеса
+    factors: [key_rate]
+  - id: fx_hedge
+    name: Инструменты фиксации валютного курса (форварды)
+    factors: [fx_cny, fx_usd]
+  - id: ved_support
+    name: Валютный контроль и сопровождение ВЭД
+    factors: [customs_fx_control, sanctions_trade, fx_cny]
+  - id: factoring
+    name: Факторинг для ускорения оборота
+    factors: [credit_market, logistics, consumer_demand]
+  - id: leasing
+    name: Лизинг транспорта и оборудования
+    factors: [logistics, credit_market]
+  - id: payroll
+    name: Зарплатный проект
+    factors: [labor_market]
+  - id: bank_guarantee
+    name: Банковские гарантии для госзакупок
+    factors: [state_support]

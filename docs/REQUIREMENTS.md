@@ -1,37 +1,9 @@
-# Product requirements — fill after case reveal
+# Требования к текущей работе
 
-## Case and problem
+Источник — предоставленный скелет и согласованный план команды. Официальные материалы кейса не добавлены; соответствие полной спецификации организаторов не выдумывается.
 
-- Hackathon brief / URL: `<link and summary>`
-- User problem: `<problem>`
-- Primary users: `<audience>`
-- Why the demo matters: `<value proposition>`
+Основной сценарий: выбрать компанию → увидеть персональную ленту и причины → открыть карточку и основания → задать вопрос → посмотреть трассу. Факт, позиция банка и вывод модели различимы. Недостаток оснований, недоступность модели и ограничение бюджета представлены явно.
 
-## MVP scope
+Обязательные ограничения: четыре человека с одним агентом у каждого; весь frontend у Тимофея; банковские исходники и секреты не публикуются; публичные примеры синтетические; вызовы моделей через общий шлюз; отсутствующие финансовые показатели не выдумываются.
 
-| ID | User-visible requirement | Priority | GitHub Issue | Acceptance criteria |
-| --- | --- | --- | --- | --- |
-| R-01 | `<capability>` | Must | `#<id>` | `<observable outcome>` |
-| R-02 | `<capability>` | Should | `#<id>` | `<observable outcome>` |
-
-## Out of scope
-
-- `<deliberate non-goal>`
-
-## Constraints and risks
-
-- Deadline and demo slot: `<date/time/timezone>`
-- External services, quotas, legal/privacy constraints: `<details>`
-- Device/browser/accessibility targets: `<details>`
-- Expected demo data and fallback mode: `<details>`
-- Major risks and mitigations: `<details>`
-
-## Definition of MVP success
-
-- `<one to three high-level observable outcomes>`
-- Link to task-level criteria: `docs/DEFINITION_OF_DONE.md`
-
-## Change handling
-
-Changes to overall MVP scope need a team-level call; internal implementation choices belong to the implementer. Keep requirement-to-Issue links current.
-
+Точные результаты и пять критериев каждой задачи: [ISSUE_INDEX.md](ISSUE_INDEX.md). Полнота live API, модели, цены, квоты, качество на реальных данных и интеграция ещё проверяются; наличие настройки не доказывает соблюдение условия.

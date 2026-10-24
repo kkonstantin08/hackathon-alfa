@@ -1,0 +1,38 @@
+[project]
+name = "alfa-news"
+version = "0.1.0"
+description = "Персональная новостная аналитика для руководителей бизнеса (хакатон «Альфа Будущее»)"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "httpx>=0.27",
+    "snowballstemmer>=3.1.1",
+]
+
+[project.optional-dependencies]
+pdf = ["pypdf>=4.0"]          # BSD-3. PyMuPDF не берём: AGPL-3.0
+embeddings = ["numpy>=1.26"]  # модель эмбеддингов подключаем, когда организаторы назовут разрешённую
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.uv]
+package = false  # приложение, а не библиотека: запускаем из корня репозитория

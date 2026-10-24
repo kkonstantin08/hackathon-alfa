@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Новости для бизнеса — прототип</title>
+<style>
+  :root { --bg:#f5f5f6; --panel:#fff; --ink:#1c1c1e; --quiet:#6b6b72; --line:#e3e3e6; --accent:#d81e05;
+          --fact:#0b7a3b; --bank:#1f4fd1; --ai:#8a4bd8; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background:var(--bg); color:var(--ink); }
+  header { display:flex; gap:16px; align-items:center; padding:12px 20px; background:var(--panel); border-bottom:1px solid var(--line); }
+  header b { color:var(--accent); }
+  select { font:inherit; padding:6px 8px; border:1px solid var(--line); border-radius:8px; max-width:420px; }
+  main { display:grid; grid-template-columns:minmax(300px, 420px) 1fr; gap:16px; padding:16px 20px; }
+  @media (max-width: 860px) { main { grid-template-columns:1fr; padding:12px 16px; } }
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .item { padding:10px 8px; border-bottom:1px solid var(--line); cursor:pointer; border-radius:8px; }
+  .item:hover, .item.active { background:#fafafa; }
+  .meta { color:var(--quiet); font-size:12.5px; }
+  .chip { display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; background:#f0f0f2; margin:4px 4px 0 0; }
+  h2 { font-size:18px; margin:0 0 8px; } h3 { font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--quiet); margin:16px 0 6px; }
+  .claim { margin:6px 0; }
+  .tag { font-size:11px; font-weight:600; padding:1px 6px; border-radius:6px; margin-right:6px; color:#fff; }
+  .tag.fact { background:var(--fact); } .tag.bank { background:var(--bank); } .tag.ai { background:var(--ai); }
+  .src { font-size:12px; color:var(--quiet); }
+  .src a { color:inherit; }
+  .row { display:flex; gap:8px; margin-top:8px; }
+  input[type=text] { flex:1; font:inherit; padding:8px 10px; border:1px solid var(--line); border-radius:8px; }
+  button { font:inherit; padding:8px 12px; border:0; border-radius:8px; background:var(--accent); color:#fff; cursor:pointer; }
+  button.ghost { background:#f0f0f2; color:var(--ink); }
+  pre { white-space:pre-wrap; font-size:12px; background:#fafafa; padding:8px; border-radius:8px; max-height:320px; overflow:auto; }
+  .ok { color:var(--fact); } .bad { color:var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <span><b>Бизнес</b> · Новости для бизнеса <span class="meta">(прототип, макет)</span></span>
+  <select id="company"></select>
+  <span id="health" class="meta"></span>
+</header>
+<main>
+  <section class="panel"><h2>Лента под вашу компанию</h2><div id="profile" class="meta"></div><div id="feed"></div></section>
+  <section class="panel" id="card"><p class="meta">Выберите новость слева.</p></section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const api = async (p, opt) => { const r = await fetch(p, opt); if (!r.ok) throw new Error((await r.json()).detail || r.status); return r.json(); };
+const BLOCKS = [["what_happened","Что произошло"],["why_it_matters","Почему важно вам"],["risks","Риски"],
+                ["opportunities","Возможности"],["actions","Что сделать"],["bank_view","Позиция банка"]];
+const TAG = {fact:"факт", bank:"банк", ai:"AI"};
+let state = {company:null, card:null, history:[]};
+
+async function init() {
+  const h = await api("/api/health");
+  $("#health").textContent = `режим: ${h.llm_mode} · потрачено сегодня ${h.spent_today_rub} ₽ из ${h.daily_budget_rub}`;
+  const cs = await api("/api/companies");
+  $("#company").innerHTML = cs.map(c => `<option value="${c.company_id}">${esc(c.company_id)} · ${esc(c.okved_name)} · ${esc(c.region||"")}</option>`).join("");
+  $("#company").onchange = () => loadFeed($("#company").value);
+  if (cs.length) loadFeed(cs[0].company_id);
+}
+
+async function loadFeed(cid) {
+  state.company = cid;
+  const p = await api(`/api/companies/${cid}`);
+  $("#profile").innerHTML = "Ваши факторы: " + p.exposures.map(e => `<span class="chip" title="${esc(e.why)}">${esc(e.factor)} · ${e.level}</span>`).join("");
+  const items = await api(`/api/feed?company_id=${cid}`);
+  $("#feed").innerHTML = items.map(n => `
+    <div class="item" data-id="${n.news_id}">
+      <div>${esc(n.title)}</div>
+      <div class="meta">${esc(n.source)} · ${new Date(n.published_at).toLocaleDateString("ru-RU")} · score ${n.score}</div>
+      ${n.reasons.map(r => `<span class="chip">${esc(r.text)}</span>`).join("")}
+    </div>`).join("") || `<p class="meta">Нет релевантных новостей.</p>`;
+  document.querySelectorAll(".item").forEach(el => el.onclick = () => { document.querySelectorAll(".item").forEach(x => x.classList.remove("active")); el.classList.add("active"); loadCard(el.dataset.id); });
+  $("#card").innerHTML = `<p class="meta">Выберите новость слева.</p>`;
+}
+
+function claimHtml(c, sources) {
+  const src = c.source_ids.map(id => sources[id]).filter(Boolean)
+    .map(s => s.type === "news" ? `<a href="${esc(s.ref)}" target="_blank" rel="noopener">${esc(s.title)}</a>` : esc(s.title || s.ref)).join(" · ");
+  return `<div class="claim"><span class="tag ${c.kind}">${TAG[c.kind]}</span>${esc(c.text)}<div class="src">↗ ${src}</div></div>`;
+}
+
+async function loadCard(nid, refresh=false) {
+  $("#card").innerHTML = `<p class="meta">Агент собирает карточку…</p>`;
+  try {
+    const c = await api(`/api/cards/${state.company}/${nid}?refresh=${refresh}`);
+    state.card = c; state.history = [];
+    const S = Object.fromEntries(c.sources.map(s => [s.source_id, s]));
+    $("#card").innerHTML = `
+      <h2>${esc(c.title)}</h2>
+      ${BLOCKS.filter(([k]) => c[k].length).map(([k, name]) => `<h3>${name}</h3>${c[k].map(x => claimHtml(x, S)).join("")}`).join("")}
+      <h3>На чём основано</h3>
+      <div class="meta">${c.sources.length} источников · проверка: <span class="${c.self_check.passed ? "ok" : "bad"}">${c.self_check.passed ? "пройдена" : "есть замечания"}</span> · попыток: ${c.self_check.attempts}
+        ${c.self_check.dropped_claims.length ? ` · выкинуто неподтверждённых: ${c.self_check.dropped_claims.length}` : ""}</div>
+      <div class="row"><button class="ghost" id="tr">Как получен вывод</button><button class="ghost" id="rf">Пересобрать</button></div>
+      <pre id="trace" hidden></pre>
+      <h3>Спросить по новости</h3>
+      <div id="chatlog"></div>
+      <div class="row"><input type="text" id="q" placeholder="Например: что будет, если ставка вырастет ещё на 2 п.п.?"><button id="send">Спросить</button></div>`;
+    $("#tr").onclick = () => showTrace(c.trace_id);
+    $("#rf").onclick = () => loadCard(nid, true);
+    $("#send").onclick = sendChat;
+  } catch (e) { $("#card").innerHTML = `<p class="bad">Ошибка: ${esc(e.message)}</p>`; }
+}
+
+async function showTrace(tid) {
+  const ev = await api(`/api/trace/${tid}`);
+  const el = $("#trace"); el.hidden = !el.hidden;
+  el.textContent = ev.map(e => `${e.ts.slice(11,19)}  ${e.ok ? "✓" : "✗"}  ${e.step}${e.model ? "  [" + e.model + (e.cached ? ", кэш" : "") + "]" : ""}${e.cost_rub ? "  " + e.cost_rub.toFixed(3) + " ₽" : ""}  ${JSON.stringify(e.detail)}`).join("\n");
+}
+
+async function sendChat() {
+  const q = $("#q").value.trim(); if (!q) return;
+  $("#q").value = "";
+  $("#chatlog").insertAdjacentHTML("beforeend", `<div class="claim"><b>Вы:</b> ${esc(q)}</div>`);
+  try {
+    const r = await api("/api/chat", {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({card_id: state.card.card_id, message: q, history: state.history})});
+    state.history.push({role:"user", content:q}, {role:"assistant", content:r.answer.answer});
+    const S = Object.fromEntries(state.card.sources.map(s => [s.source_id, s]));
+    $("#chatlog").insertAdjacentHTML("beforeend", `<div class="claim"><b>Аналитик:</b> ${esc(r.answer.answer)}${r.answer.claims.map(c => claimHtml(c, S)).join("")}</div>`);
+  } catch (e) { $("#chatlog").insertAdjacentHTML("beforeend", `<p class="bad">${esc(e.message)}</p>`); }
+}
+init();
+</script>
+</body>
+</html>

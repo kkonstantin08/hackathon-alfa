@@ -1,13 +1,6 @@
-# Merge these keys into EACH Codex participant's personal config.toml.
-# Do not replace other existing settings or commit real personal config.
-# This applies to Codex only, not Claude Code.
-
-model = "gpt-6.1-sol"
-model_reasoning_effort = "medium"
-
-[agents]
-enabled = true
-default_subagent_model = "gpt-6-luna"
-default_subagent_reasoning_effort = "high"
-max_concurrent_threads_per_session = 2
-
+# Личные настройки модели не изменяются этим репозиторием.
+# Четыре человека используют по одному AI-агенту.
+# Дополнительные рабочие агенты и субагенты по умолчанию не включаются.
+# Ревью: отдельная сессия назначенного участника.
+# Протокол: AGENTS.md и docs/AGENT_CONTRACT.md.
+# Пустой TOML-пример не устанавливает плагины, права и токены.

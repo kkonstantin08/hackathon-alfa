@@ -1,0 +1,117 @@
+# Правила «признак компании → фактор». Используются profiles.build().
+# when: все условия должны выполняться.
+#   поле CSV: значение          — точное совпадение (строка или число)
+#   okved_prefix: "46.21"       — MAINOKVED_CODE начинается с префикса
+#   fts_country_in: [...]       — FTS_COUNTRY_NAME из списка
+# why попадает в карточку как обоснование (источник «профиль»).
+# Блок okved — черновик: финальный генерируется LLM по ~88 классам ОКВЭД и вычитывается командой.
+
+products:
+  - when: {CL_PRODUCT_LOA_MARK: 1}
+    factor: key_rate
+    level: high
+    why: есть кредит — ставка влияет на стоимость долга
+  - when: {CL_PRODUCT_LEA_MARK: 1}
+    factor: key_rate
+    level: medium
+    why: есть лизинг — ставка влияет на платежи по новым договорам
+  - when: {CL_PRODUCT_LEA_MARK: 1}
+    factor: credit_market
+    level: medium
+    why: есть лизинг — важны условия лизингового рынка
+  - when: {CL_PRODUCT_DEP_MARK: 1}
+    factor: key_rate
+    level: medium
+    why: есть депозиты — ставка влияет на доходность свободных средств
+  - when: {CL_PRODUCT_ZPP_MARK: 1}
+    factor: labor_market
+    level: medium
+    why: зарплатный проект — компания чувствительна к рынку труда
+  - when: {CL_PRODUCT_GAR_MARK: 1}
+    factor: state_support
+    level: low
+    why: есть банковские гарантии — вероятно участие в госзакупках
+  - when: {FACTORING_MARK: 1}
+    factor: credit_market
+    level: medium
+    why: использует факторинг
+
+foreign_trade:
+  - when: {FTS_FLAG: 1}
+    factor: customs_fx_control
+    level: high
+    why: ведёт внешнеэкономическую деятельность
+  - when: {FTS_FLAG: 1}
+    factor: sanctions_trade
+    level: medium
+    why: ВЭД — риски санкций и ограничений платежей
+  - when: {FTS_FLAG: 1, fts_country_in: ["Китай"]}
+    factor: fx_cny
+    level: high
+    why: ВЭД с Китаем — расчёты и цены в юанях
+  - when: {FTS_FLAG: 1, fts_country_in: ["Турция", "Германия", "Италия", "США", "Индия", "ОАЭ", "Казахстан"]}
+    factor: fx_usd
+    level: high
+    why: ВЭД со страной, где расчёты чаще в долларах или евро
+
+okved:
+  - when: {okved_prefix: "01"}
+    factor: grain_agri
+    level: high
+    why: сельское хозяйство
+  - when: {okved_prefix: "10"}
+    factor: food_prices
+    level: high
+    why: производство пищевых продуктов
+  - when: {okved_prefix: "46.21"}
+    factor: grain_agri
+    level: high
+    why: оптовая торговля зерном
+  - when: {okved_prefix: "46.3"}
+    factor: food_prices
+    level: high
+    why: оптовая торговля продуктами питания
+  - when: {okved_prefix: "47"}
+    factor: consumer_demand
+    level: high
+    why: розничная торговля
+  - when: {okved_prefix: "24"}
+    factor: metals
+    level: high
+    why: металлургия
+  - when: {okved_prefix: "19"}
+    factor: oil_gas
+    level: high
+    why: производство нефтепродуктов
+  - when: {okved_prefix: "41"}
+    factor: construction_realty
+    level: high
+    why: строительство зданий
+  - when: {okved_prefix: "49"}
+    factor: logistics
+    level: high
+    why: сухопутный транспорт
+  - when: {okved_prefix: "49"}
+    factor: oil_gas
+    level: medium
+    why: транспорт — топливо в себестоимости
+  - when: {okved_prefix: "52"}
+    factor: logistics
+    level: high
+    why: складское хозяйство и транспортная обработка
+  - when: {okved_prefix: "62"}
+    factor: it_tech
+    level: high
+    why: разработка ПО
+  - when: {okved_prefix: "62"}
+    factor: labor_market
+    level: high
+    why: IT — зарплаты основная статья затрат
+
+# TODO A: нет правил для фактора regulation (eval: молочный завод не видит новость про маркировку).
+
+# Если компания получила хотя бы одну экспозицию по ОКВЭД, дополнительно добавляем регион.
+regional:
+  factor: regional_economy
+  level: low
+  why: события региона присутствия

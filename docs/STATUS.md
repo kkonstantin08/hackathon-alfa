@@ -1,28 +1,21 @@
-# Team status snapshot
+# Снимок состояния — 24.10.2026, МСК
 
-> GitHub Issues are authoritative. Keep this page short and update it at team checkpoints (suggested: kickoff, once daily, before demo) through a coordinated PR.
+Источник статусов — [общая очередь](https://github.com/kkonstantin08/hackathon-alfa/issues/3) и её рабочие Issues. Опубликованы 28 задач с пятью критериями у каждой. Ни одна не закрыта публикацией плана.
 
-- Last update: `<YYYY-MM-DD HH:mm UTC>`
-- Day / time left: `<day N of 4–7 / approximate deadline>`
-- Demo URL: `<URL once deployment is configured>`
-- MVP state: `<not started / in progress / feature complete / demo ready>`
+## Текущая точка
 
-## Current focus
+- Настроечный PR переносит скелет и согласованные инструкции; до его принятия исходники отсутствуют в main.
+- SETUP-01: https://github.com/kkonstantin08/hackathon-alfa/issues/4; SETUP-02: https://github.com/kkonstantin08/hackathon-alfa/issues/5.
+- Имена и области согласованы; сопоставление всех GitHub-аккаунтов не выполнено.
+- Защита main не изменялась: у автора PR нет admin. Задача владельцу: https://github.com/kkonstantin08/hackathon-alfa/issues/6.
+- Live API, реальные PDF/CSV, бюджетные свойства, качество и deployment не подтверждены этим PR.
 
-| Person / function | Issue(s) | State | Next step / ETA |
-| --- | --- | --- | --- |
-| `<@handle>` | `#<id>` | `<todo / doing / blocked / PR / done>` | `<short update>` |
+## Следующие результаты
 
-## Blockers and dependencies
+1. Независимое человеческое ревью и принятие настроечного PR по отдельной команде.
+2. Фиксация исходных интерфейсов C-01: https://github.com/kkonstantin08/hackathon-alfa/issues/17.
+3. Параллельная работа по готовым входам, контрольный набор A-05 — до настройки качества.
+4. Ранний сквозной mock INT-01: https://github.com/kkonstantin08/hackathon-alfa/issues/29.
+5. Финальная репетиция INT-02: https://github.com/kkonstantin08/hackathon-alfa/issues/30.
 
-- `<blocker — impacted Issue, @owner, proposed resolution>`
-
-## Important PRs / integration risks
-
-- `<PR link / needs review / contract change / needs demo test>`
-
-## Next checkpoint
-
-- Time: `<YYYY-MM-DD HH:mm UTC>`
-- Owner: `<@handle>`
-
+Точный коммит и результаты локальных/CI-проверок фиксируются в PR. Время синков и демонстрации согласует команда; фиктивные даты не назначаются.

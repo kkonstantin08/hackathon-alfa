@@ -1,40 +1,34 @@
-## Summary
+## Результат
 
-- What changed:
-- Why this is needed:
-- Issue: Closes #`<number>`
+- Issue / ID плана:
+- Основной исполнитель и помощь:
+- Независимый ревьюер (не соавтор):
+- Проблема и получившееся поведение:
 
-## Areas and shared contracts
+## Пять критериев
 
-- Affected function(s): `<Backend / Frontend / UI/UX / Integration / DevOps / Fullstack>`
-- Shared interface changed? `<No | Yes — docs/CONTRACTS.md reference>`
-- Dependent teammates notified? `<N/A | @handle + Issue/PR comment link>`
-- Requested reviewer(s): `@<handle>`
+Ссылка на критерии Issue и доказательства каждого; непроверенное не отмечать выполненным.
 
-## Verification
+| Критерий | Результат и доказательство | Ограничение |
+| --- | --- | --- |
+| AC1 | | |
+| AC2 | | |
+| AC3 | | |
+| AC4 | | |
+| AC5 | | |
 
-- [ ] Acceptance criteria reviewed
-- [ ] Local relevant tests / lint / type check / build performed, or not-applicable reason stated
-- [ ] CI green (foundation + application checks once configured)
-- [ ] Docs, contracts and demo behavior updated if needed
-- [ ] No personal role file or secrets committed
+## Контракты и проверки
 
-Commands / evidence:
+- Затронутые модули, потребители, CONTRACT_CHANGE:
+- Проверенные base/head SHA:
+- Команды и реальные результаты:
+- Mock/live, данные, ограничения и откат:
 
-```text
-<test commands and outcome>
-```
+## Ревью и merge
 
-## Risk / release notes
+- [ ] Отчёт завершён и актуален; ревьюер не соавтор.
+- [ ] P0/P1 устранены; решения по P2 явно приняты человеком.
+- [ ] Обязательный CI зелёный на текущем коммите.
+- [ ] Есть одобрение другого человека.
 
-- Risks / rollback: `<notes>`
-- Demo impact: `<notes>`
-
-## Merge authorization
-
-- [ ] **Normal:** approval from responsible person plus required green CI.
-- [ ] **Emergency:** explicit human instruction, green CI, and reason/follow-up below.
-- Emergency Merge reason / authorizing human / follow-up Issue: `<if applicable>`
-
-**Agents may open this PR, but must not merge it without a separate explicit human command.**
-
+Отсутствие отчёта или INCOMPLETE не означает PASS. Merge и deployment — только по отдельной команде человека.

@@ -1,0 +1,13 @@
+{"company_id": "U001", "news_id": "n004", "relevant": true, "note": "зерноторговец — экспортная пошлина на пшеницу"}
+{"company_id": "U001", "news_id": "n003", "relevant": true, "note": "ВЭД с Китаем — курс юаня"}
+{"company_id": "U001", "news_id": "n010", "relevant": false, "note": "IT-зарплаты не про зерно"}
+{"company_id": "U002", "news_id": "n011", "relevant": true, "note": "IT-льготы"}
+{"company_id": "U002", "news_id": "n004", "relevant": false, "note": "пошлина на зерно не про IT"}
+{"company_id": "U003", "news_id": "n006", "relevant": true, "note": "металлург — цены на прокат"}
+{"company_id": "U003", "news_id": "n007", "relevant": true, "note": "ВЭД с Турцией — платежи"}
+{"company_id": "U003", "news_id": "n013", "relevant": false, "note": "молоко не про металлургию"}
+{"company_id": "U005", "news_id": "n008", "relevant": true, "note": "перевозчик — ставки грузоперевозок"}
+{"company_id": "U005", "news_id": "n009", "relevant": true, "note": "перевозчик — дизель"}
+{"company_id": "U006", "news_id": "n013", "relevant": true, "note": "молочный завод — цены на молоко"}
+{"company_id": "U006", "news_id": "n014", "relevant": true, "note": "молочный завод — маркировка"}
+{"company_id": "U006", "news_id": "n020", "relevant": false, "note": "алюминий не про молоко"}
