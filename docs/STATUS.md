@@ -7,7 +7,7 @@
 - Настроечный PR переносит скелет и согласованные инструкции; до его принятия исходники отсутствуют в main.
 - SETUP-01: https://github.com/kkonstantin08/hackathon-alfa/issues/4; SETUP-02: https://github.com/kkonstantin08/hackathon-alfa/issues/5.
 - Имена и области согласованы; сопоставление всех GitHub-аккаунтов не выполнено.
-- Защита main не изменялась: у автора PR нет admin. Задача владельцу: https://github.com/kkonstantin08/hackathon-alfa/issues/6.
+- Чтение правил main подтвердило одно одобрение без обязательного конкретного ревьюера, сброс устаревших одобрений и обязательные foundation/application. Права всех аккаунтов и отрицательные сценарии проверяет владелец: https://github.com/kkonstantin08/hackathon-alfa/issues/6.
 - Live API, реальные PDF/CSV, бюджетные свойства, качество и deployment не подтверждены этим PR.
 
 ## Следующие результаты

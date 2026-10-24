@@ -2,7 +2,7 @@
 
 28 согласованных Issues опубликованы 24.10.2026. У каждой пять acceptance criteria. Статусы и доказательства выполнения находятся в самих Issues; эта таблица — навигация.
 
-| ID | Issue | Исполнитель | Помощь | Ревьюер | Зависимости |
+| ID | Issue | Исполнитель | Помощь | Рекомендуемый ревьюер | Зависимости |
 | --- | --- | --- | --- | --- | --- |
 | TEAM-01 | [#3](https://github.com/kkonstantin08/hackathon-alfa/issues/3) chore: вести общую очередь четырёх участников | Константин | — | Тимофей | — |
 | SETUP-01 | [#4](https://github.com/kkonstantin08/hackathon-alfa/issues/4) build: перенести предоставленный скелет приложения в репозиторий | Алексей | — | Александр | — |
@@ -33,6 +33,6 @@
 | INT-01 | [#29](https://github.com/kkonstantin08/hackathon-alfa/issues/29) test(integration): пройти первый сквозной сценарий на mock | Алексей | — | Александр | [#4](https://github.com/kkonstantin08/hackathon-alfa/issues/4), [#17](https://github.com/kkonstantin08/hackathon-alfa/issues/17), [#27](https://github.com/kkonstantin08/hackathon-alfa/issues/27) |
 | INT-02 | [#30](https://github.com/kkonstantin08/hackathon-alfa/issues/30) test(integration): провести финальную сборку на реальных входах | Александр | Алексей | Константин | [#9](https://github.com/kkonstantin08/hackathon-alfa/issues/9), [#10](https://github.com/kkonstantin08/hackathon-alfa/issues/10), [#11](https://github.com/kkonstantin08/hackathon-alfa/issues/11), [#14](https://github.com/kkonstantin08/hackathon-alfa/issues/14), [#16](https://github.com/kkonstantin08/hackathon-alfa/issues/16), [#18](https://github.com/kkonstantin08/hackathon-alfa/issues/18), [#19](https://github.com/kkonstantin08/hackathon-alfa/issues/19), [#21](https://github.com/kkonstantin08/hackathon-alfa/issues/21), [#22](https://github.com/kkonstantin08/hackathon-alfa/issues/22), [#26](https://github.com/kkonstantin08/hackathon-alfa/issues/26), [#28](https://github.com/kkonstantin08/hackathon-alfa/issues/28), [#29](https://github.com/kkonstantin08/hackathon-alfa/issues/29) |
 
-Ревьюер заменяется, если участвовал в реализации. Весь frontend выполняет Тимофей. Дополнительный исполнитель только Алексей, в указанной в Issue области. Имена не подменяются неизвестными GitHub-логинами.
+Ревью и одобрение может выполнить любой участник, не участвовавший в реализации PR. Указанный ревьюер — рекомендуемый первый адресат; отдельного разрешения на замену не нужно, фактическое имя фиксируется в отчёте. Весь frontend выполняет Тимофей. Дополнительный исполнитель только Алексей, в указанной в Issue области. Имена не подменяются неизвестными GitHub-логинами.
 
 Порядок: подготовка → исходные контракты → ранний mock → параллельная доработка → финальная проверка. Начало зависимой работы по согласованному примеру не означает готовность непроверенной связки.
