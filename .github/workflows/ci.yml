@@ -17,15 +17,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Run validator unit tests
-        run: python3 -m unittest discover -s tests -v
-
-      - name: Check scaffold and PR title
+      - name: Foundation tests
+        run: python3 -m unittest discover -s tests -p 'test_validate_scaffold.py' -v
+      - name: Scaffold and PR title
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: python3 scripts/validate_scaffold.py --root . --pr-title "$PR_TITLE"
-
-  # Add real application lint/test/build jobs after stack selection.
-  # Make each new stable job name required in the separate CI ruleset.
-
+  application:
+    name: application
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      LLM_MODE: mock
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: '0.11.32'
+      - name: Install locked dependencies
+        run: uv sync --frozen --python 3.12
+      - name: Lint
+        run: uv run ruff check app contracts eval tests
+      - name: Application, contract and foundation tests
+        run: uv run pytest

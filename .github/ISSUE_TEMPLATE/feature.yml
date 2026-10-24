@@ -1,45 +1,45 @@
-name: Feature / task
-description: One independently deliverable unit of work
+name: Небольшая задача
+description: Один результат, пять критериев и независимое ревью
 title: "feat: "
 body:
   - type: textarea
     id: outcome
     attributes:
-      label: User-visible outcome
-      description: Describe success, not just implementation details.
-      placeholder: As a user I can ...
+      label: Результат и границы
+      description: Один проверяемый результат, ориентир 1–3 часа.
+    validations:
+      required: true
+  - type: textarea
+    id: owners
+    attributes:
+      label: Основной исполнитель, помощь и рекомендуемый ревьюер
+      description: Александр / Константин / Алексей / Тимофей. Второй исполнитель при необходимости только Алексей. Проверить и одобрить PR может любой участник, не участвовавший в реализации.
     validations:
       required: true
   - type: textarea
     id: acceptance
     attributes:
-      label: Acceptance criteria
-      description: Measurable, demoable checks.
-      placeholder: "- [ ] ..."
-    validations:
-      required: true
-  - type: dropdown
-    id: function
-    attributes:
-      label: Primary function
-      options:
-        - Backend
-        - Frontend
-        - UI/UX
-        - Team Lead / Integration
-        - DevOps
-        - Fullstack
+      label: Пять acceptance criteria
+      description: Пять отдельных проверяемых условий с доказательствами.
+      value: |
+        - [ ] AC1:
+        - [ ] AC2:
+        - [ ] AC3:
+        - [ ] AC4:
+        - [ ] AC5:
     validations:
       required: true
   - type: textarea
     id: dependencies
     attributes:
-      label: Dependencies and shared contracts
-      description: Other Issues, interfaces, consumers to notify.
-      placeholder: "Issues #..., contracts C-..., @..."
+      label: Входы, контракты и зависимости
+      description: Ссылки на Issues, производители и потребители интерфейсов.
+    validations:
+      required: true
   - type: textarea
     id: verification
     attributes:
-      label: Testing / demo proof
-      placeholder: Which tests and live scenario will show that this is done?
-
+      label: Проверка и передача
+      description: Команды, сценарий, mock/live, ожидаемые результаты и ограничения; без секретов.
+    validations:
+      required: true

@@ -1,52 +1,16 @@
-# Application architecture — high level only
+# Архитектура предоставленного скелета
 
-> Complete collectively when the case is known. This document must not become a detailed blueprint for each engineer's internal implementation.
+Python 3.11+, FastAPI, Pydantic, SQLite, статический HTML/JavaScript, uv и Docker. Основа — предоставленный alfa-news.zip; описание существующего кода не объявляет незавершённые части готовыми.
 
-## Goal and constraints
+Поток: CSV компаний/платежей → профили A; JSONL новостей → теги B; фрагменты банка → поиск B; профиль и теги → формульная лента A; план → инструменты → черновик → проверка/повтор C; HTTP API C → frontend D. Вызовы моделей проходят только через общий шлюз.
 
-- Application in one sentence: `<what we are building>`
-- Required user-facing functionality: `<MVP from REQUIREMENTS.md>`
-- Deadline and critical external constraints: `<details>`
+[Роли](ROLES.md), [контракты](CONTRACTS.md), [задачи](ISSUE_INDEX.md).
 
-## Agreed stack
+## Границы готовности
 
-| Layer | Technology / service | Why / main constraint | Functional owner |
-| --- | --- | --- | --- |
-| Frontend | `<TBD>` | `<reason>` | `<function>` |
-| Backend | `<TBD>` | `<reason>` | `<function>` |
-| Storage | `<TBD>` | `<reason>` | `<function>` |
-| Shared API/data contracts | `<TBD>` | `<reason>` | `<function>` |
-| Hosting / demo | `<TBD>` | `<reason>` | `<function>` |
-| CI / testing | `<TBD>` | `<reason>` | `<function>` |
-
-## Major components and data flow
-
-1. `<User enters via ...>`
-2. `<Frontend communicates with ...>`
-3. `<Backend/storage/external service ...>`
-4. `<Result is returned / rendered ...>`
-
-## Monorepo layout (adjust after case)
-
-```text
-<repo>/
-  apps/<frontend-app>/
-  apps/<backend-app>/
-  packages/<shared-contracts>/
-  docs/
-  .github/
-```
-
-Do not create unused directories just to match this suggestion.
-
-## Shared agreements
-
-- Canonical interfaces: [CONTRACTS.md](CONTRACTS.md)
-- Functional owners: [ROLES.md](ROLES.md)
-- Team-wide consequential decisions: [DECISIONS.md](DECISIONS.md)
-- Environment and deploy surface: `<URL / provider / env names once chosen>`
-
-## Engineer autonomy
-
-After the initial team decision on this page, the implementing human (with their agent) chooses patterns, dependencies and internal architecture of their module. Put optional module proposals in the Issue or use [PROPOSAL_TEMPLATE.md](PROPOSAL_TEMPLATE.md). Only shared contracts, public behavior, build/deploy requirements, or MVP scope need cross-team coordination.
-
+- Fixtures синтетические; 10 фрагментов банка — заглушки. Реальных PDF/CSV в этом PR нет.
+- Есть BM25 и лексический дедуп. EMBEDDINGS=on не включает готовую embedding-модель.
+- Live API, цены, бюджетная корректность и полнота проверки утверждений требуют назначенных задач.
+- A-05 фиксирует контрольный набор до настройки качества.
+- INT-01 — ранний mock; INT-02 — отдельная проверка одной версии на новых данных.
+- Хостинг и автоматический deployment не настроены этим PR.

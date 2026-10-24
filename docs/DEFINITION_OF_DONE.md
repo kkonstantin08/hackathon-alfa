@@ -1,30 +1,19 @@
-# Definition of Done — an Issue is complete when
+# Готовность
 
-## Functional readiness
+## К ревью
 
-- [ ] Linked GitHub Issue has explicit, observable acceptance criteria.
-- [ ] Implemented behavior matches the accepted MVP scope in `docs/REQUIREMENTS.md`.
-- [ ] Happy path and important failures are demonstrated or tested.
-- [ ] Any affected cross-module contracts and dependent owners are updated/notified.
+- [ ] Проверены пять критериев Issue; невыполненное остаётся открытым.
+- [ ] PR связан с задачей; указаны изменения интерфейсов и потребители.
+- [ ] Есть реальные команды, результаты, версия и ограничения.
+- [ ] Необходимые контракты и проверки потребителей обновлены.
+- [ ] В diff нет секретов, банковских исходников и личных настроек.
 
-## Engineering readiness
+## К слиянию
 
-- [ ] Relevant tests, linting, type checks and builds pass locally (once configured for the stack).
-- [ ] `CI / foundation` and all added application checks are green on the PR.
-- [ ] No credentials, secrets or personal `ROLE.local.md` files were committed.
-- [ ] Relevant setup, API, environment and demo instructions are updated.
-- [ ] PR states what changed, how it was verified, which Issue is addressed and any risk.
+- [ ] Обязательный CI зелёный на актуальном коммите.
+- [ ] Независимый ревьюер не соавтор; проверка актуальна и завершена.
+- [ ] P0/P1 устранены; решения по P2 явно приняты человеком.
+- [ ] Есть одно одобрение любого участника команды, не участвовавшего в реализации PR, и отдельная человеческая команда merge; ждать рекомендованного ревьюера не требуется.
+- [ ] Переход интерфейсов не оставляет потребителей несовместимыми.
 
-## Merge and demo readiness
-
-- [ ] Normal merge: at least one other person's approving review. Emergency: explicit human authorization and reason recorded in the PR; CI still green.
-- [ ] Human gives **explicit command to merge**; agent does not decide to merge autonomously.
-- [ ] After merge to `main`, automatic demo deployment succeeds **if configured**; demo URL/health checked.
-- [ ] Issue closed or status updated, with `docs/STATUS.md` refreshed at the next checkpoint.
-
-## Definition of demo-ready
-
-- [ ] End-to-end core user journey works in the actual deployed environment.
-- [ ] Team knows the demo URL, launch steps, sample data and fallback plan.
-- [ ] No open blocker threatens the main demo journey.
-
+Done — после принятия и включения связанного PR, с HANDOFF и обновлением Issue. Для административной задачи нужно доказательство применённой настройки. Готовность модулей не равна готовности демонстрации: нужны INT-01 и INT-02.
